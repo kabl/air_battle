@@ -28,14 +28,14 @@ class Ship():
 
     def update(self):
         if self.drive_front:
-            self.drive()
+            self.drive(self.ai_settings.ship_speed_factor)
         if self.moving_right:
-            self.turn(-1)
+            self.turn(-self.ai_settings.ship_speed_rotation)
         if self.moving_left:
-            self.turn(1)
+            self.turn(self.ai_settings.ship_speed_rotation)
 
-    def turn(self, directoin):
-        self.direction += directoin
+    def turn(self, delta):
+        self.direction += delta
         self.image = pygame.transform.rotate(self.original_image, self.get_direction())
         x, y = self.rect.center
         self.rect = self.image.get_rect()
@@ -44,25 +44,12 @@ class Ship():
     def get_direction(self):
         return self.direction % 360
 
-    def drive(self):
-
-        # new_x = x + distance * Math.Cos(angle_degrees * Math.Pi / 180)
-        # new_y = y + distance * Math.Sin(angle_degrees * Math.Pi / 180)
+    def drive(self, speed):
 
         x0, y0 = self.rect.center
 
-        x1 = round(x0 + 3 * math.cos((self.get_direction() + 90) * math.pi / 180))
-        y1 = round(y0 + 3 * math.sin((self.get_direction() - 90) * math.pi / 180))
-        diff = x1 - x0
-        direction = "none"
-        if diff > 0:
-            direction = "right"
-        elif diff < 0:
-            direction = "left"
-
-        print("X direction: " + direction + ", diff: " + str(diff) + ", pos: " + str(x1))
+        x1 = round(x0 + speed * math.cos((self.get_direction() + 90) * math.pi / 180))
+        y1 = round(y0 + speed * math.sin((self.get_direction() - 90) * math.pi / 180))
 
         if gf.is_in_area(self.ai_settings, x1, y1):
             self.rect.center = (x1, y1)
-        else:
-            print("Not in area")
