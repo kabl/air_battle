@@ -8,10 +8,8 @@ class Bullet(Sprite):
     def __init__(self, ai_settings, screen, point):
         super(Bullet, self).__init__()
         self.screen = screen
-        print("Point:", point)
         self.point = copy.copy(point)
         self.point.move(30)
-        print("CPoint:", self.point)
 
         self.rect = pygame.Rect(0, 0, ai_settings.bullet_width, ai_settings.bullet_height)
         self.rect.centerx = point.x

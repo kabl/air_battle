@@ -17,8 +17,6 @@ class Ship():
         self.rect.bottom = self.screen_rect.bottom
 
         x, y = self.rect.center
-        print("self.rect.centerx:", self.rect.centerx)
-        print("x", x)
         self.point = Point(x, y, 0)
 
         self.moving_right = False

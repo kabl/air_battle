@@ -23,6 +23,7 @@ class Enemy(Sprite):
 
         self.min = random.randint(0, 30) - 30
         self.max = random.randint(0, 30)
+        self.speed = random.randint(1, 3)
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -31,10 +32,9 @@ class Enemy(Sprite):
         self.counter = self.counter + 1
         if self.counter % 10 == 0:
             x = random.randint(self.min, self.max)
-            print("x:", x)
             self.turn(x)
 
-        self.drive(2)
+        self.drive(self.speed)
 
     def turn(self, delta):
         self.point.direction += delta
