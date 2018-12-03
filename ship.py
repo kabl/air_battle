@@ -1,7 +1,7 @@
 import pygame
 import math
 import game_functions as gf
-
+from point import Point
 
 class Ship():
 
@@ -16,7 +16,10 @@ class Ship():
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
 
-        self.center = float(self.rect.centerx)
+        x, y = self.rect.center
+        self.point = Point(x, y, 0)
+
+       # self.center = float(self.rect.centerx)
 
         self.moving_right = False
         self.moving_left = False
