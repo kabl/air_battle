@@ -17,14 +17,13 @@ class Ship():
         self.rect.bottom = self.screen_rect.bottom
 
         x, y = self.rect.center
+        print("self.rect.centerx:", self.rect.centerx)
+        print("x", x)
         self.point = Point(x, y, 0)
-
-       # self.center = float(self.rect.centerx)
 
         self.moving_right = False
         self.moving_left = False
-        self.drive_front = False
-        self.direction = 0
+        self.drive_front = True
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -38,21 +37,13 @@ class Ship():
             self.turn(self.ai_settings.ship_speed_rotation)
 
     def turn(self, delta):
-        self.direction += delta
-        self.image = pygame.transform.rotate(self.original_image, self.get_direction())
+        self.point.direction += delta
+        self.image = pygame.transform.rotate(self.original_image, self.point.get_direction())
         x, y = self.rect.center
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
-    def get_direction(self):
-        return self.direction % 360
-
     def drive(self, speed):
-
-        x0, y0 = self.rect.center
-
-        x1 = round(x0 + speed * math.cos((self.get_direction() + 90) * math.pi / 180))
-        y1 = round(y0 + speed * math.sin((self.get_direction() - 90) * math.pi / 180))
-
+        x1, y1 = self.point.move(speed)
         if gf.is_in_area(self.ai_settings, x1, y1):
             self.rect.center = (x1, y1)

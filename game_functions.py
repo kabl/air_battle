@@ -57,7 +57,7 @@ def update_bullets(bullets, enemies):
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
-    new_bullet = Bullet(ai_settings, screen, ship)
+    new_bullet = Bullet(ai_settings, screen, ship.point)
     bullets.add(new_bullet)
 
 
