@@ -3,9 +3,10 @@ import game_functions as gf
 from pygame.sprite import Sprite
 import random
 import copy
+from point import Point
 
 class Enemy(Sprite):
-    def __init__(self, ai_settings, screen, point):
+    def __init__(self, ai_settings, screen):
         super(Enemy, self).__init__()
         self.screen = screen
         self.ai_settings = ai_settings
@@ -14,7 +15,7 @@ class Enemy(Sprite):
         self.image = self.original_image
         self.rect = self.image.get_rect()
 
-        self.point = copy.copy(point)
+        self.point = Point(ai_settings.screen_width / 2, 0, 180)
         self.rect.x = self.point.x
         self.rect.y = self.point.y
 
