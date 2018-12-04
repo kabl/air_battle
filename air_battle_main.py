@@ -18,11 +18,9 @@ def run_game():
     bullets = Group()
 
     enemies = Group()
-    enemies.add(Enemy(ai_settings, screen, ship.point))
-    enemies.add(Enemy(ai_settings, screen, ship.point))
-    enemies.add(Enemy(ai_settings, screen, ship.point))
-    enemies.add(Enemy(ai_settings, screen, ship.point))
-    enemies.add(Enemy(ai_settings, screen, ship.point))
+    number_of_enemies = ai_settings.start_enemies
+    for x in range(number_of_enemies):
+        enemies.add(Enemy(ai_settings, screen, ship.point))
 
     clock = pygame.time.Clock()
 
@@ -33,6 +31,12 @@ def run_game():
         enemies.update()
         gf.update_bullets(bullets, enemies)
         bullets.update()
+
+        if len(enemies) == 0:
+            number_of_enemies = number_of_enemies + 2
+            for x in range(number_of_enemies):
+                enemies.add(Enemy(ai_settings, screen, ship.point))
+
 
         gf.update_screen(ai_settings, screen, ship, enemies, bullets)
 
