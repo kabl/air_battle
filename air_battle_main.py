@@ -29,7 +29,8 @@ def run_game():
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
         enemies.update()
-        gf.update_bullets(bullets, enemies)
+        gf.update_bullets(ai_settings, bullets, enemies)
+        gf.check_collission(ship, enemies)
         bullets.update()
 
         if len(enemies) == 0:

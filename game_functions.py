@@ -48,10 +48,12 @@ def update_screen(ai_settings, screen, ship, enemies, bullets):
     pygame.display.flip()
 
 
-def update_bullets(bullets, enemies):
+def update_bullets(ai_settings, bullets, enemies):
     for bullet in bullets.copy():
-        if bullet.rect.bottom < 0:
+        if not is_in_area(ai_settings, bullet.point.x, bullet.point.y):
             bullets.remove(bullet)
+
+    #print("Bullet size:", len(bullets))
 
     collissions = pygame.sprite.groupcollide(bullets, enemies, True, True)
 
@@ -59,6 +61,11 @@ def update_bullets(bullets, enemies):
 def fire_bullet(ai_settings, screen, ship, bullets):
     new_bullet = Bullet(ai_settings, screen, ship.point)
     bullets.add(new_bullet)
+
+
+def check_collission(ship, enemies):
+    if pygame.sprite.spritecollideany(ship, enemies):
+        print("Ship hit!!! GAME OVER")
 
 
 def is_in_area(ai_settings, x, y):
