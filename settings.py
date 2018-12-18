@@ -13,3 +13,5 @@ class Settings():
         self.bullet_color = 60, 60, 60
 
         self.start_enemies = 5
+
+        self.scoring_points = 50
