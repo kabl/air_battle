@@ -11,7 +11,7 @@ class Enemy(Sprite):
         self.screen = screen
         self.ai_settings = ai_settings
 
-        self.original_image = pygame.image.load("images/ship6.png")
+        self.original_image = pygame.image.load("images/ship6small.png")
         self.image = self.original_image
         self.rect = self.image.get_rect()
 
