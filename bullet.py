@@ -1,6 +1,5 @@
 import pygame
 from pygame.sprite import Sprite
-from point import Point
 import copy
 
 
@@ -22,8 +21,6 @@ class Bullet(Sprite):
         x, y = self.point.move(self.speed_factor)
         self.rect.x = x
         self.rect.y = y
-        #self.y -= self.speed_factor
-        #self.rect.y = self.y
 
     def draw_bullet(self):
         pygame.draw.rect(self.screen, self.color, self.rect)

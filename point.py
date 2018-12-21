@@ -17,3 +17,9 @@ class Point():
 
     def get_direction(self):
         return self.direction % 360
+
+    def is_in_area(self, ai_settings):
+        return self.x >= 0 \
+            and self.x <= ai_settings.screen_width \
+            and self.y >= 0 \
+            and self.y <= ai_settings.screen_height

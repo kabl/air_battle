@@ -18,7 +18,7 @@ def run_game():
     game_stats = GameStats(ai_settings)
     scoreboard = Scoreboard(ai_settings, screen, game_stats)
     ship = Ship(ai_settings, screen)
-    bullets = Group()
+    #bullets = Group()
 
     enemies = Group()
     number_of_enemies = ai_settings.start_enemies
@@ -29,19 +29,19 @@ def run_game():
 
     while True:
         clock.tick(100)
-        gf.check_events(ai_settings, screen, game_stats, scoreboard, ship, bullets)
+        gf.check_events(ai_settings, screen, game_stats, scoreboard, ship)
         ship.update()
         enemies.update()
-        gf.update_bullets(ai_settings, game_stats, scoreboard, bullets, enemies)
+        gf.update_bullets(ai_settings, game_stats, scoreboard, ship.bullets, enemies)
         gf.check_collission(ship, enemies)
-        bullets.update()
+        #bullets.update()
 
         if len(enemies) == 0:
             number_of_enemies = number_of_enemies + 2
             for x in range(number_of_enemies):
                 enemies.add(Enemy(ai_settings, screen))
 
-        gf.update_screen(ai_settings, screen, game_stats, scoreboard, ship, enemies, bullets)
+        gf.update_screen(ai_settings, screen, game_stats, scoreboard, ship, enemies)
 
 
 run_game()
