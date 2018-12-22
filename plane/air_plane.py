@@ -1,10 +1,10 @@
-from base_plane import BasePlane
+from plane.base_plane import BasePlane
 
 
-class Ship(BasePlane):
+class AirPlane(BasePlane):
 
-    def __init__(self, ai_seettings, screen):
-        BasePlane.__init__(self, ai_seettings, screen, "images/ship4small.png")
+    def __init__(self, ai_settings, screen):
+        BasePlane.__init__(self, ai_settings, screen, "images/ship4small.png")
 
         self.moving_right = False
         self.moving_left = False

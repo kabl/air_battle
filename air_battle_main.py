@@ -1,9 +1,8 @@
-import sys
 import pygame
 from pygame.sprite import Group
 from settings import Settings
-from ship import Ship
-from enemy import Enemy
+from plane.air_plane import AirPlane
+from plane.enemy_plane import EnemyPlane
 import game_functions as gf
 from scoreboard import Scoreboard
 from game_stats import GameStats
@@ -17,13 +16,13 @@ def run_game():
     pygame.display.set_caption("GAME")
     game_stats = GameStats(ai_settings)
     scoreboard = Scoreboard(ai_settings, screen, game_stats)
-    ship = Ship(ai_settings, screen)
+    ship = AirPlane(ai_settings, screen)
     #bullets = Group()
 
     enemies = Group()
     number_of_enemies = ai_settings.start_enemies
     for x in range(number_of_enemies):
-        enemies.add(Enemy(ai_settings, screen))
+        enemies.add(EnemyPlane(ai_settings, screen))
 
     clock = pygame.time.Clock()
 
@@ -39,7 +38,7 @@ def run_game():
         if len(enemies) == 0:
             number_of_enemies = number_of_enemies + 2
             for x in range(number_of_enemies):
-                enemies.add(Enemy(ai_settings, screen))
+                enemies.add(EnemyPlane(ai_settings, screen))
 
         gf.update_screen(ai_settings, screen, game_stats, scoreboard, ship, enemies)
 

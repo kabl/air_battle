@@ -14,9 +14,9 @@ def check_events(ai_settings, screen, game_stats, scoreboard, ship):
 
 
 def check_keydown(event, ai_settings, screen, game_stats, scoreboard, ship):
-    if event.key == pygame.K_UP:
-        ship.drive_front = True
-    elif event.key == pygame.K_RIGHT:
+    #if event.key == pygame.K_UP:
+    #    ship.drive_front = True
+    if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
@@ -27,8 +27,8 @@ def check_keydown(event, ai_settings, screen, game_stats, scoreboard, ship):
 
 
 def check_keyup(event, ship):
-    if event.key == pygame.K_UP:
-        ship.drive_front = False
+   # if event.key == pygame.K_UP:
+   #     ship.drive_front = False
     if event.key == pygame.K_RIGHT:
         ship.moving_right = False
     if event.key == pygame.K_LEFT:

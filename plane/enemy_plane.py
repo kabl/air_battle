@@ -1,8 +1,8 @@
 import random
-from base_plane import BasePlane
+from plane.base_plane import BasePlane
 
 
-class Enemy(BasePlane):
+class EnemyPlane(BasePlane):
 
     def __init__(self, ai_settings, screen):
         BasePlane.__init__(self, ai_settings, screen, "images/ship6small.png")

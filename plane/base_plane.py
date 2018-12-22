@@ -40,7 +40,7 @@ class BasePlane(Sprite):
         if self.point.is_in_area(self.ai_settings):
             self.rect.center = (x1, y1)
         else:
-            self.point.direction = self.point.direction - 180
+            self.turn(180)
 
     def fire_bullet(self, bullets):
         new_bullet = Bullet(self.ai_settings, self.screen, self.point)
