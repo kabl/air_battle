@@ -16,8 +16,7 @@ def run_game():
     pygame.display.set_caption("GAME")
     game_stats = GameStats(ai_settings)
     scoreboard = Scoreboard(ai_settings, screen, game_stats)
-    ship = AirPlane(ai_settings, screen)
-    #bullets = Group()
+    air_plane = AirPlane(ai_settings, screen)
 
     enemies = Group()
     number_of_enemies = ai_settings.start_enemies
@@ -28,18 +27,18 @@ def run_game():
 
     while True:
         clock.tick(100)
-        gf.check_events(game_stats, scoreboard, ship)
-        ship.update()
+        gf.check_events(game_stats, scoreboard, air_plane)
+        air_plane.update()
         enemies.update()
-        gf.update_bullets(game_stats, scoreboard, ship.bullets, enemies)
-        gf.check_collission(ship, enemies)
+        gf.update_bullets(game_stats, scoreboard, air_plane.bullets, enemies)
+        gf.check_collission(air_plane, enemies)
 
         if len(enemies) == 0:
             number_of_enemies = number_of_enemies + 2
             for x in range(number_of_enemies):
                 enemies.add(EnemyPlane(ai_settings, screen))
 
-        gf.update_screen(ai_settings, screen, scoreboard, ship, enemies)
+        gf.update_screen(ai_settings, screen, scoreboard, air_plane, enemies)
 
 
 run_game()
