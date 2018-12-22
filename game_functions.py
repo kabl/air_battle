@@ -14,9 +14,9 @@ def check_events(game_stats, scoreboard, air_plane):
 
 def check_keydown(event, game_stats, scoreboard, air_plane):
     if event.key == pygame.K_RIGHT:
-        air_plane.moving_right = True
+        air_plane.turn_right = True
     elif event.key == pygame.K_LEFT:
-        air_plane.moving_left = True
+        air_plane.turn_left = True
     elif event.key == pygame.K_SPACE:
         fire_bullet(game_stats, scoreboard, air_plane)
     elif event.key == pygame.K_q:
@@ -25,9 +25,9 @@ def check_keydown(event, game_stats, scoreboard, air_plane):
 
 def check_keyup(event, air_plane):
     if event.key == pygame.K_RIGHT:
-        air_plane.moving_right = False
+        air_plane.turn_right = False
     if event.key == pygame.K_LEFT:
-        air_plane.moving_left = False
+        air_plane.turn_left = False
 
 
 def update_screen(ai_settings, screen, scoreboard, air_plane, enemies):
