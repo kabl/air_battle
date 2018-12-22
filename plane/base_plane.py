@@ -3,7 +3,8 @@ from pygame.sprite import Sprite
 from pygame.sprite import Group
 from point import Point
 from bullet import Bullet
-
+from plane.simple_gun import SimpleGun
+from plane.double_gun import DoubleGun
 
 class BasePlane(Sprite):
 
@@ -23,6 +24,7 @@ class BasePlane(Sprite):
         self.point = Point(x, y, 0)
 
         self.bullets = Group()
+        self.gun = DoubleGun(screen)
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -42,8 +44,8 @@ class BasePlane(Sprite):
             self.turn(180)
 
     def fire_bullet(self):
-        new_bullet = Bullet(self.ai_settings, self.screen, self.point)
-        self.bullets.add(new_bullet)
+        new_bullets = self.gun.fire(self.point)
+        self.bullets.add(new_bullets)
 
     def update(self):
         self.bullets.update()
