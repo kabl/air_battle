@@ -1,7 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
 from pygame.sprite import Group
-import game_functions as gf
 from point import Point
 from bullet import Bullet
 
@@ -42,9 +41,9 @@ class BasePlane(Sprite):
         else:
             self.turn(180)
 
-    def fire_bullet(self, bullets):
+    def fire_bullet(self):
         new_bullet = Bullet(self.ai_settings, self.screen, self.point)
-        bullets.add(new_bullet)
+        self.bullets.add(new_bullet)
 
     def update(self):
         self.bullets.update()
