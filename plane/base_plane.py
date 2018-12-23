@@ -1,14 +1,11 @@
 import pygame
 from pygame.sprite import Sprite
-from pygame.sprite import Group
 from point import Point
-from bullet import Bullet
-from plane.simple_gun import SimpleGun
-from plane.double_gun import DoubleGun
+
 
 class BasePlane(Sprite):
 
-    def __init__(self, ai_settings, screen, image_path):
+    def __init__(self, ai_settings, screen, image_path, point=None):
         super(BasePlane, self).__init__()
         self.ai_settings = ai_settings
         self.screen = screen
@@ -20,11 +17,13 @@ class BasePlane(Sprite):
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
 
-        x, y = self.rect.center
-        self.point = Point(x, y, 0)
+        if point is None:
+            x, y = self.rect.center
+            self.point = Point(x, y, 0)
+        else:
+            self.point = point
 
-        self.bullets = Group()
-        self.gun = DoubleGun(screen)
+        self.turn(0)
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -42,13 +41,3 @@ class BasePlane(Sprite):
             self.rect.center = (x1, y1)
         else:
             self.turn(180)
-
-    def fire_bullet(self):
-        new_bullets = self.gun.fire(self.point)
-        self.bullets.add(new_bullets)
-
-    def update(self):
-        self.bullets.update()
-        for bullet in self.bullets.copy():
-            if not bullet.point.is_in_area(self.ai_settings):
-                self.bullets.remove(bullet)

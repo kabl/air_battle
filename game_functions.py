@@ -1,6 +1,8 @@
 import sys
 import pygame
-
+from plane.simple_gun import SimpleGun
+from plane.double_gun import DoubleGun
+import os
 
 def check_events(game_stats, scoreboard, air_plane):
     for event in pygame.event.get():
@@ -21,6 +23,12 @@ def check_keydown(event, game_stats, scoreboard, air_plane):
         fire_bullet(game_stats, scoreboard, air_plane)
     elif event.key == pygame.K_q:
         sys.exit()
+    elif event.key == pygame.K_1:
+        air_plane.active_gun = 0
+    elif event.key == pygame.K_2:
+        air_plane.active_gun = 1
+    elif event.key == pygame.K_3:
+        air_plane.active_gun = 2
 
 
 def check_keyup(event, air_plane):
@@ -30,14 +38,19 @@ def check_keyup(event, air_plane):
         air_plane.turn_left = False
 
 
-def update_screen(ai_settings, screen, scoreboard, air_plane, enemies):
-    screen.fill(ai_settings.bg_color)
+def update_screen(screen, scoreboard, air_plane, enemies, backGround):
+    screen.fill((230, 230, 230))
+   # screen.fill([255, 255, 255])
+   # screen.blit(backGround.image, backGround.rect)
 
     scoreboard.show_score()
     scoreboard.show_hit_ratio()
 
     for bullet in air_plane.bullets:
-        bullet.draw_bullet()
+        if "draw_bullet" in dir(bullet):
+            bullet.draw_bullet()
+        elif "blitme" in dir(bullet):
+            bullet.blitme()
 
     air_plane.blitme()
 

@@ -8,9 +8,18 @@ from scoreboard import Scoreboard
 from game_stats import GameStats
 
 
+class Background(pygame.sprite.Sprite):
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+
+
 def run_game():
     pygame.init()
     ai_settings = Settings()
+    backGround = Background('images/background1.png', [0, 0])
 
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("GAME")
@@ -38,7 +47,7 @@ def run_game():
             for x in range(number_of_enemies):
                 enemies.add(EnemyPlane(ai_settings, screen))
 
-        gf.update_screen(ai_settings, screen, scoreboard, air_plane, enemies)
+        gf.update_screen(screen, scoreboard, air_plane, enemies, backGround)
 
 
 run_game()
