@@ -1,10 +1,11 @@
-from bullet import Bullet
 import copy
+from plane.bullet2 import Bullet2
 
 
 class DoubleGun:
 
-    def __init__(self, screen):
+    def __init__(self, ai_settings, screen):
+        self.ai_settings = ai_settings
         self.screen = screen
 
     def fire(self, point):
@@ -17,7 +18,7 @@ class DoubleGun:
             point_copy.direction += 90
             point_copy.move(movement)
             point_copy.direction -= 90
-            bullets.append(Bullet(self.screen, point_copy))
+            bullets.append(Bullet2(self.ai_settings, self.screen, point_copy))
 
         return bullets
 

@@ -14,8 +14,8 @@ class AirPlane(BasePlane):
         self.drive_front = True
 
         self.bullets = Group()
-        self.gun = [SimpleGun(screen),
-                    DoubleGun(screen),
+        self.gun = [SimpleGun(ai_settings, screen),
+                    DoubleGun(ai_settings, screen),
                     MissileGun(ai_settings, screen)]
         self.active_gun = 0
 
