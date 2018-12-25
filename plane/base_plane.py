@@ -29,7 +29,8 @@ class BasePlane(Sprite):
         self.screen.blit(self.image, self.rect)
 
     def turn(self, delta):
-        self.point.direction += delta
+        self.point.turn(delta)
+        # self.point.direction += delta
         self.image = pygame.transform.rotate(self.original_image, self.point.get_direction())
         x, y = self.rect.center
         self.rect = self.image.get_rect()

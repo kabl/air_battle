@@ -4,6 +4,7 @@ from plane.simple_gun import SimpleGun
 from plane.double_gun import DoubleGun
 from plane.missile_gun import MissileGun
 
+
 class AirPlane(BasePlane):
 
     def __init__(self, ai_settings, screen):

@@ -3,6 +3,7 @@ import pygame
 from plane.simple_gun import SimpleGun
 from plane.double_gun import DoubleGun
 import os
+from plane.missile import Missile
 
 def check_events(game_stats, scoreboard, air_plane):
     for event in pygame.event.get():
@@ -47,10 +48,10 @@ def update_screen(screen, scoreboard, air_plane, enemies, backGround):
     scoreboard.show_hit_ratio()
 
     for bullet in air_plane.bullets:
-        if "draw_bullet" in dir(bullet):
-            bullet.draw_bullet()
-        elif "blitme" in dir(bullet):
-            bullet.blitme()
+        #  if "draw_bullet" in dir(bullet):
+        #      bullet.draw_bullet()
+        #  elif "blitme" in dir(bullet):
+        bullet.blitme()
 
     air_plane.blitme()
 
@@ -66,6 +67,8 @@ def update_bullets(game_stats, scoreboard, bullets, enemies):
         game_stats.increment_shot_enemies()
         scoreboard.prep_score()
 
+    for missile in [b for b in bullets if isinstance(b, Missile)]:
+        missile.check_targets(enemies)
 
 def fire_bullet(game_stats, scoreboard, air_plane):
     air_plane.fire_bullet()
