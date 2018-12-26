@@ -1,7 +1,6 @@
 import sys
 import pygame
 from plane.missile import Missile
-from pygame.sprite import Group
 
 
 def check_events(game_stats, scoreboard, air_plane, enemies):
@@ -39,6 +38,12 @@ def check_keyup(event, air_plane):
         air_plane.turn_right = False
     if event.key == pygame.K_LEFT:
         air_plane.turn_left = False
+
+
+def fire_bullet(game_stats, scoreboard, air_plane):
+    air_plane.fire_bullet()
+    game_stats.increment_shot_bullets()
+    scoreboard.prep_hit_ratio()
 
 
 def update_screen(screen, scoreboard, air_planes, enemies, backGround):
@@ -81,14 +86,24 @@ def update_bullets(game_stats, scoreboard, air_planes, enemies):
             missile.search_and_follow_target(air_planes)
 
 
-def fire_bullet(game_stats, scoreboard, air_plane):
-    air_plane.fire_bullet()
-    game_stats.increment_shot_bullets()
-    scoreboard.prep_hit_ratio()
+def update_bullets2(game_stats, scoreboard, base_planes):
+    cp_base_planes = base_planes.copy()
+    for base_plane in base_planes:
+        cp_base_planes.remove(base_plane)
+        print('update base_plane:', str(len(cp_base_planes)))
+        collisions = pygame.sprite.groupcollide(base_plane.bullets, cp_base_planes, True, True)
+        if collisions:
+            game_stats.increment_shot_enemies()
+            scoreboard.prep_score()
+            print('collissions')
+
+        for missile in [b for b in base_plane.bullets if isinstance(b, Missile)]:
+            missile.search_and_follow_target(cp_base_planes)
+
+        cp_base_planes.add(base_plane)
 
 
-def check_collission(air_plane, enemies):
-    pass
+# def check_collission(air_plane, enemies):
     # if pygame.sprite.spritecollideany(air_plane, enemies):
     #    print("Air plane hit!!! GAME OVER")
 

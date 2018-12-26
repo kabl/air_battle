@@ -36,6 +36,9 @@ def run_game():
         enemy = EnemyPlane(ai_settings, screen)
         enemies.add(enemy)
 
+    base_planes = Group()
+    base_planes.add(air_planes)
+    base_planes.add(enemies)
     clock = pygame.time.Clock()
 
     counter = 0
@@ -44,15 +47,16 @@ def run_game():
         gf.check_events(game_stats, scoreboard, air_plane, enemies)
         air_planes.update()
         enemies.update()
-        gf.update_bullets(game_stats, scoreboard, air_planes, enemies)
-        gf.check_collission(air_plane, enemies)
+        # gf.update_bullets(game_stats, scoreboard, air_planes, enemies)
+        gf.update_bullets2(game_stats, scoreboard, base_planes)
+
 
         if len(enemies) == 0:
             #number_of_enemies = number_of_enemies + 2
             for x in range(number_of_enemies):
                 enemy = EnemyPlane(ai_settings, screen)
                 enemies.add(enemy)
-
+                base_planes.add(enemy)
 
         counter += 1
         if counter % 100000:

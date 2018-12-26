@@ -8,7 +8,7 @@ from plane.missile_gun import MissileGun
 class AirPlane(BasePlane):
 
     def __init__(self, ai_settings, screen):
-        BasePlane.__init__(self, ai_settings, screen, "images/plane2.png")
+        BasePlane.__init__(self, ai_settings, screen, "images/plane2.png", )
 
         self.turn_right = False
         self.turn_left = False

@@ -1,4 +1,5 @@
 import pygame
+import random
 from pygame.sprite import Sprite
 from point import Point
 
@@ -18,8 +19,11 @@ class BasePlane(Sprite):
         self.rect.bottom = self.screen_rect.bottom
 
         if point is None:
-            x, y = self.rect.center
-            self.point = Point(x, y, 0)
+            x1, y1 = self.rect.center
+            x2 = random.randint(0, x1)
+            y2 = random.randint(0, y1)
+            direction = random.randint(0, 360)
+            self.point = Point(x2, y2, direction)
         else:
             self.point = point
 

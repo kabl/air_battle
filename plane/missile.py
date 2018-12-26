@@ -56,7 +56,6 @@ class Missile(BasePlane):
             d2 = p2.distance_to(target.point)
 
             dist_diff = math.fabs(d1 - d2)
-            print("selected target: " + str(target) + ", dist diff: " + str(dist_diff))
             if d1 > d2:
                 self.turn(-3 * dist_diff)
             elif d1 < d2:
