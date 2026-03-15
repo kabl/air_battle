@@ -7,7 +7,7 @@ from plane.missile_gun import MissileGun
 
 class AirPlane(BasePlane):
 
-    def __init__(self, ai_settings, screen):
+    def __init__(self, ai_settings, screen, explosions):
         BasePlane.__init__(self, ai_settings, screen, "images/plane2.png", )
 
         self.turn_right = False
@@ -17,7 +17,7 @@ class AirPlane(BasePlane):
         self.bullets = Group()
         self.gun = [SimpleGun(ai_settings, screen),
                     DoubleGun(ai_settings, screen),
-                    MissileGun(ai_settings, screen)]
+                    MissileGun(ai_settings, screen, explosions)]
         self.active_gun = 0
 
     def fire_bullet(self):

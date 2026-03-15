@@ -6,7 +6,7 @@ from plane.missile_gun import MissileGun
 
 class EnemyPlane(BasePlane):
 
-    def __init__(self, ai_settings, screen):
+    def __init__(self, ai_settings, screen, explosions):
         BasePlane.__init__(self, ai_settings, screen, "images/ship6small.png")
 
         self.min = random.randint(0, 30) - 30
@@ -15,7 +15,7 @@ class EnemyPlane(BasePlane):
         self.counter = 0
 
         self.bullets = Group()
-        self.gun = MissileGun(ai_settings, screen)
+        self.gun = MissileGun(ai_settings, screen, explosions)
 
     def fire_bullet(self):
         new_bullets = self.gun.fire(self.point)

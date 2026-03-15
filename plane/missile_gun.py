@@ -4,9 +4,10 @@ from plane.missile import Missile
 
 class MissileGun():
 
-    def __init__(self, ai_settings, screen):
+    def __init__(self, ai_settings, screen, explosions):
         self.ai_settings = ai_settings
         self.screen = screen
+        self.explosions = explosions
 
         self.last_gun = 0
 
@@ -19,4 +20,4 @@ class MissileGun():
         point_copy.move(movements[self.last_gun % 2])
         point_copy.direction -= 90
 
-        return Missile(self.ai_settings, self.screen, point_copy)
+        return Missile(self.ai_settings, self.screen, point_copy, self.explosions)

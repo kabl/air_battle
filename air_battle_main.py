@@ -26,14 +26,16 @@ def run_game():
     game_stats = GameStats(ai_settings)
     scoreboard = Scoreboard(ai_settings, screen, game_stats)
 
-    air_plane = AirPlane(ai_settings, screen)
+    explosions = Group()
+
+    air_plane = AirPlane(ai_settings, screen, explosions)
     air_planes = Group()
     air_planes.add(air_plane)
 
     enemies = Group()
     number_of_enemies = 2 # ai_settings.start_enemies
     for x in range(number_of_enemies):
-        enemy = EnemyPlane(ai_settings, screen)
+        enemy = EnemyPlane(ai_settings, screen, explosions)
         enemies.add(enemy)
 
     base_planes = Group()
@@ -47,14 +49,15 @@ def run_game():
         gf.check_events(game_stats, scoreboard, air_plane, enemies)
         air_planes.update()
         enemies.update()
+        explosions.update()
         # gf.update_bullets(game_stats, scoreboard, air_planes, enemies)
-        gf.update_bullets2(game_stats, scoreboard, base_planes)
+        gf.update_bullets2(game_stats, scoreboard, base_planes, explosions)
 
 
         if len(enemies) == 0:
             #number_of_enemies = number_of_enemies + 2
             for x in range(number_of_enemies):
-                enemy = EnemyPlane(ai_settings, screen)
+                enemy = EnemyPlane(ai_settings, screen, explosions)
                 enemies.add(enemy)
                 base_planes.add(enemy)
 
@@ -63,7 +66,7 @@ def run_game():
            pass
            # enemy.fire_bullet()
 
-        gf.update_screen(screen, scoreboard, air_planes, enemies, backGround)
+        gf.update_screen(screen, scoreboard, air_planes, enemies, backGround, explosions)
 
 
 run_game()

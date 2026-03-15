@@ -1,6 +1,7 @@
 import sys
 import pygame
 from plane.missile import Missile
+from explosion import Explosion
 
 
 def check_events(game_stats, scoreboard, air_plane, enemies):
@@ -46,7 +47,7 @@ def fire_bullet(game_stats, scoreboard, air_plane):
     scoreboard.prep_hit_ratio()
 
 
-def update_screen(screen, scoreboard, air_planes, enemies, backGround):
+def update_screen(screen, scoreboard, air_planes, enemies, backGround, explosions):
     screen.fill((230, 230, 230))
    # screen.fill([255, 255, 255])
    # screen.blit(backGround.image, backGround.rect)
@@ -63,6 +64,9 @@ def update_screen(screen, scoreboard, air_planes, enemies, backGround):
         enemy.blitme()
         for bullet in enemy.bullets:
             bullet.blitme()
+
+    for explosion in explosions:
+        explosion.blitme()
 
     pygame.display.flip()
 
@@ -86,7 +90,7 @@ def update_bullets(game_stats, scoreboard, air_planes, enemies):
             missile.search_and_follow_target(air_planes)
 
 
-def update_bullets2(game_stats, scoreboard, base_planes):
+def update_bullets2(game_stats, scoreboard, base_planes, explosions):
     cp_base_planes = base_planes.copy()
     for base_plane in base_planes:
         cp_base_planes.remove(base_plane)
@@ -96,6 +100,9 @@ def update_bullets2(game_stats, scoreboard, base_planes):
             game_stats.increment_shot_enemies()
             scoreboard.prep_score()
             print('collissions')
+            for bullet in collisions:
+                if isinstance(bullet, Missile):
+                    explosions.add(Explosion(scoreboard.screen, bullet.rect.center))
 
         for missile in [b for b in base_plane.bullets if isinstance(b, Missile)]:
             missile.search_and_follow_target(cp_base_planes)

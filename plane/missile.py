@@ -1,4 +1,5 @@
 from plane.base_plane import BasePlane
+from explosion import Explosion
 import pygame
 import copy
 import math
@@ -6,7 +7,7 @@ import math
 
 class Missile(BasePlane):
 
-    def __init__(self, ai_settings, screen, point):
+    def __init__(self, ai_settings, screen, point, explosions):
         BasePlane.__init__(self,
                            ai_settings,
                            screen,
@@ -15,8 +16,14 @@ class Missile(BasePlane):
 
         self.radius = 300
         self.circle_point = copy.copy(self.point)
+        self.spawn_time = pygame.time.get_ticks()
+        self.explosions = explosions
 
     def update(self):
+        if pygame.time.get_ticks() - self.spawn_time >= 4000:
+            self.explosions.add(Explosion(self.screen, self.rect.center))
+            self.kill()
+            return
         self.drive(5)
         self.circle_point = copy.copy(self.point)
         self.circle_point.move(self.radius)
