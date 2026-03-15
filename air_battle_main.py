@@ -7,6 +7,7 @@ import game_functions as gf
 from scoreboard import Scoreboard
 from game_stats import GameStats
 from main_menu import MainMenu, _StartGame
+from sound_manager import SoundManager
 
 
 class Background(pygame.sprite.Sprite):
@@ -17,7 +18,7 @@ class Background(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = location
 
 
-def play_game(screen, ai_settings):
+def play_game(screen, ai_settings, sound_manager):
     backGround = Background('images/background1.png', [0, 0])
     game_stats = GameStats(ai_settings)
     scoreboard = Scoreboard(ai_settings, screen, game_stats)
@@ -38,20 +39,22 @@ def play_game(screen, ai_settings):
     base_planes.add(air_planes)
     base_planes.add(enemies)
     clock = pygame.time.Clock()
+    sound_manager.start_music()
 
     counter = 0
     while True:
         clock.tick(70)
-        gf.check_events(game_stats, scoreboard, air_plane, enemies)
+        gf.check_events(game_stats, scoreboard, air_plane, enemies, sound_manager)
         air_planes.update()
         enemies.update()
         explosions.update()
         # gf.update_bullets(game_stats, scoreboard, air_planes, enemies)
-        gf.update_bullets2(game_stats, scoreboard, base_planes, explosions, air_plane)
+        gf.update_bullets2(game_stats, scoreboard, base_planes, explosions, air_plane, sound_manager)
 
         if game_stats.game_over:
             elapsed = pygame.time.get_ticks() - game_stats.game_over_time
             if elapsed >= 3000:
+                sound_manager.stop_music()
                 break
 
         if len(enemies) == 0:
@@ -71,18 +74,22 @@ def play_game(screen, ai_settings):
 
 
 def run_game():
+    pygame.mixer.pre_init(44100, -16, 2, 512)
     pygame.init()
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Air Battle")
 
+    sound_manager = SoundManager()
     menu = MainMenu(screen)
     message = None
     while True:
+        sound_manager.start_menu_music()
         try:
             menu.run(message)
         except _StartGame:
-            play_game(screen, ai_settings)
+            sound_manager.stop_menu_music()
+            play_game(screen, ai_settings, sound_manager)
             message = 'GAME OVER'
 
 
