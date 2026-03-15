@@ -47,7 +47,7 @@ def fire_bullet(game_stats, scoreboard, air_plane):
     scoreboard.prep_hit_ratio()
 
 
-def update_screen(screen, scoreboard, air_planes, enemies, backGround, explosions):
+def update_screen(screen, scoreboard, air_planes, enemies, backGround, explosions, game_over=False):
     screen.fill((230, 230, 230))
    # screen.fill([255, 255, 255])
    # screen.blit(backGround.image, backGround.rect)
@@ -68,7 +68,22 @@ def update_screen(screen, scoreboard, air_planes, enemies, backGround, explosion
     for explosion in explosions:
         explosion.blitme()
 
+    if game_over:
+        _draw_game_over_banner(screen)
+
     pygame.display.flip()
+
+
+def _draw_game_over_banner(screen):
+    screen_rect = screen.get_rect()
+    banner_w, banner_h = 500, 130
+    overlay = pygame.Surface((banner_w, banner_h), pygame.SRCALPHA)
+    overlay.fill((0, 0, 0, 180))
+    screen.blit(overlay, overlay.get_rect(center=screen_rect.center))
+
+    font = pygame.font.SysFont(None, 100)
+    text = font.render('GAME OVER', True, (220, 50, 50))
+    screen.blit(text, text.get_rect(center=screen_rect.center))
 
 
 def update_bullets(game_stats, scoreboard, air_planes, enemies):
@@ -90,17 +105,20 @@ def update_bullets(game_stats, scoreboard, air_planes, enemies):
             missile.search_and_follow_target(air_planes)
 
 
-def update_bullets2(game_stats, scoreboard, base_planes, explosions):
+def update_bullets2(game_stats, scoreboard, base_planes, explosions, air_plane):
     cp_base_planes = base_planes.copy()
     for base_plane in base_planes:
         cp_base_planes.remove(base_plane)
-        print('update base_plane:', str(len(cp_base_planes)))
         collisions = pygame.sprite.groupcollide(base_plane.bullets, cp_base_planes, True, True)
         if collisions:
-            game_stats.increment_shot_enemies()
-            scoreboard.prep_score()
-            print('collissions')
-            for bullet in collisions:
+            for bullet, targets in collisions.items():
+                for target in targets:
+                    if target is air_plane:
+                        game_stats.game_over = True
+                        game_stats.game_over_time = pygame.time.get_ticks()
+                    else:
+                        game_stats.increment_shot_enemies()
+                        scoreboard.prep_score()
                 if isinstance(bullet, Missile):
                     explosions.add(Explosion(scoreboard.screen, bullet.rect.center))
 

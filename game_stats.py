@@ -6,6 +6,8 @@ class GameStats():
         self.score = 0
         self.shot_bullets = 0
         self.shot_enemies = 0
+        self.game_over = False
+        self.game_over_time = None
 
     def increment_shot_bullets(self):
         self.shot_bullets += 1

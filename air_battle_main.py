@@ -6,6 +6,7 @@ from plane.enemy_plane import EnemyPlane
 import game_functions as gf
 from scoreboard import Scoreboard
 from game_stats import GameStats
+from main_menu import MainMenu, _StartGame
 
 
 class Background(pygame.sprite.Sprite):
@@ -16,13 +17,8 @@ class Background(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = location
 
 
-def run_game():
-    pygame.init()
-    ai_settings = Settings()
+def play_game(screen, ai_settings):
     backGround = Background('images/background1.png', [0, 0])
-
-    screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
-    pygame.display.set_caption("GAME")
     game_stats = GameStats(ai_settings)
     scoreboard = Scoreboard(ai_settings, screen, game_stats)
 
@@ -33,7 +29,7 @@ def run_game():
     air_planes.add(air_plane)
 
     enemies = Group()
-    number_of_enemies = 2 # ai_settings.start_enemies
+    number_of_enemies = 2  # ai_settings.start_enemies
     for x in range(number_of_enemies):
         enemy = EnemyPlane(ai_settings, screen, explosions)
         enemies.add(enemy)
@@ -51,8 +47,12 @@ def run_game():
         enemies.update()
         explosions.update()
         # gf.update_bullets(game_stats, scoreboard, air_planes, enemies)
-        gf.update_bullets2(game_stats, scoreboard, base_planes, explosions)
+        gf.update_bullets2(game_stats, scoreboard, base_planes, explosions, air_plane)
 
+        if game_stats.game_over:
+            elapsed = pygame.time.get_ticks() - game_stats.game_over_time
+            if elapsed >= 3000:
+                break
 
         if len(enemies) == 0:
             #number_of_enemies = number_of_enemies + 2
@@ -66,7 +66,24 @@ def run_game():
            pass
            # enemy.fire_bullet()
 
-        gf.update_screen(screen, scoreboard, air_planes, enemies, backGround, explosions)
+        gf.update_screen(screen, scoreboard, air_planes, enemies, backGround, explosions,
+                         game_stats.game_over)
+
+
+def run_game():
+    pygame.init()
+    ai_settings = Settings()
+    screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
+    pygame.display.set_caption("Air Battle")
+
+    menu = MainMenu(screen)
+    message = None
+    while True:
+        try:
+            menu.run(message)
+        except _StartGame:
+            play_game(screen, ai_settings)
+            message = 'GAME OVER'
 
 
 run_game()
